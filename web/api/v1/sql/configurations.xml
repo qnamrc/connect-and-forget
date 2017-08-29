@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<statements>
+
+<sql id="0001">
+SELECT
+	configuration
+FROM
+	tenants
+WHERE
+	tenantId = :tenantId
+</sql>
+
+<sql id="0002">
+SELECT
+	configuration->>:parameter AS configuration
+FROM
+	tenants
+WHERE
+	tenantId = :tenantId
+</sql>
+
+</statements>

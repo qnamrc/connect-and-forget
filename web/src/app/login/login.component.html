@@ -1,0 +1,22 @@
+<div class="login-page" [@routerTransition]>
+	<div class="row">
+		<div class="col-md-4 push-md-4">
+			<img src="assets/images/logo.png" width="150px" class="user-avatar" />
+			<h1>{{'ts-applicationTitle' | translate}}</h1>
+			<form role="form" (submit)="login(user.value, password.value, $event)">
+				<div class="form-content">
+					<div class="form-group">
+						<input type="text" #user name="user" class="form-control input-underline input-lg" id="" placeholder="{{'ts-userPlaceholder' | translate}}" autofocus>
+					</div>
+
+					<div class="form-group">
+						<input type="password" #password name="password" class="form-control input-underline input-lg" id="" placeholder="{{'ts-passwordPlaceholder' | translate}}">
+					</div>
+				</div>
+				<button class="btn rounded-btn" type="submit">{{'ts-login' | translate}}</button>
+			</form>
+			<br><br><br>
+			<h2 class="text-danger">{{errorMessage | translate}}</h2>
+		</div>
+	</div>
+</div>

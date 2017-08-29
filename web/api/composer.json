@@ -1,0 +1,18 @@
+{
+	"require": {
+		"pda/pheanstalk": "^3.1",
+		"lcobucci/jwt": "^3.2",
+		"respect/rest": "^0.6.0",
+		"royallthefourth/smooth-pdo": "^2.0",
+		"katzgrau/klogger": "^1.2",
+		"notrix/phpmqtt": "^1.0"
+	},
+	"autoload": {
+		"classmap": [
+			"./vendor/notrix/phpmqtt/phpMQTT.php"
+		],
+		"psr-4": {
+			"CaF\\": "../api/v1/classes/"
+		}
+	}
+}

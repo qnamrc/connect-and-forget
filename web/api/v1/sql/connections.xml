@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<statements>
+
+<sql id="0001">
+SELECT
+	json_agg(
+		json_build_object(
+			'connectionGUID', c.connectionGUID,
+			'destinationGUID', d.destinationGUID,
+			'name', c.name,
+			'description', c.description,
+			'comments', c.comments,
+			'type', c.type,
+			'subnet', c.subnet,
+			'enableInstructions', c.enableInstructions,
+			'linkGUID', l.linkGUID,
+			'permission', COALESCE(l.permission, 'Disabled'),
+			'status', COALESCE(l.status, 'Terminated'),
+			'ipAddresses', l.ipAddresses
+		)
+	) connections
+FROM
+	connections c
+	JOIN destinations d ON c.tenantId = d.tenantId AND c.destinationId = d.destinationId
+	LEFT JOIN links l ON l.tenantId = c.tenantId AND l.connectionId = c.connectionId
+WHERE
+	c.tenantId = :tenantId
+	AND (l.userGUID IS NULL OR l.userGUID = :userGUID)
+</sql>
+
+<sql id="0001.a">
+	AND d.destinationGUID = :destinationGUID
+</sql>
+
+<sql id="0001.b">
+	AND connectionGUID = :connectionGUID
+</sql>
+
+</statements>

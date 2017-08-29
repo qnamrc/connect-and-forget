@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<statements>
+
+<sql id="0001">
+SELECT
+	c.tenantid,
+	c.connectionid,
+	c.destinationid,
+	c.connectionguid,
+	c.name,
+	c.type,
+	c.subnet,
+	c.capabilities,
+	l.linkguid,
+	l.ipaddresses,
+	l.permission,
+	l.status
+FROM
+	connections c
+	LEFT JOIN links l ON c.tenantId = l.tenantId AND c.connectionId = l.connectionId AND l.userGUID = :userGUID
+WHERE
+	c.tenantId = 1
+	AND c.connectionGUID = :connectionGUID
+</sql>
+
+<sql id="0002">
+INSERT INTO links (
+	tenantId,
+	connectionId,
+	lastChanged,
+	ipAddresses,
+	userGUID,
+	permission,
+	status
+) VALUES(
+	:tenantId,
+	:connectionId,
+	CURRENT_TIMESTAMP,
+	ARRAY[:ipAddress::cidr],
+	:userGUID,
+	'Queued',
+	'Terminated'
+)
+ON CONFLICT (
+	tenantid,
+	connectionid
+) DO UPDATE SET
+	lastchanged = CURRENT_TIMESTAMP,
+	ipaddresses = CASE WHEN links.ipaddresses IS NULL THEN EXCLUDED.ipaddresses ELSE array_append(links.ipaddresses, :ipAddress) END,
+	permission = 'Reconfiguring'
+RETURNING
+	*
+</sql>
+
+<sql id="0003">
+INSERT INTO links (
+	tenantId,
+	connectionId,
+	lastChanged,
+	ipAddresses,
+	userGUID,
+	permission,
+	status
+) VALUES(
+	:tenantId,
+	:connectionId,
+	CURRENT_TIMESTAMP,
+	ARRAY[:ipAddress::cidr],
+	:userGUID,
+	'Queued',
+	'Terminated'
+)
+ON CONFLICT (
+	tenantid,
+	connectionid,
+	userguid
+) DO UPDATE SET
+	lastchanged = CURRENT_TIMESTAMP,
+	ipaddresses = CASE WHEN links.ipaddresses IS NULL THEN EXCLUDED.ipaddresses ELSE array_append(links.ipaddresses, :ipAddress) END,
+	permission = 'Reconfiguring'
+RETURNING
+	*
+</sql>
+
+<sql id="0001.a">
+</sql>
+
+</statements>

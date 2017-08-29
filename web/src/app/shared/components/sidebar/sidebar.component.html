@@ -1,0 +1,68 @@
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}" style="height:-webkit-fill-available;overflow:hidden">
+
+	<!-- Search destinations -->
+	<div class="row">
+		<div class="col col-sm-10 dropdown">
+			<div class="d-inline-block" [ngClass]="{'show': showSearchResults}">
+				<form class="form-inline">
+					<input #searchField class="form-control" style="width: 100%" type="search" [value]="searchString" (input)="doSearch($event.target);" placeholder="{{'ts-search' | translate}}" autofocus accesskey="f">
+				</form>
+				<div class="dropdown-menu">
+					<a *ngFor="let destination of searchResult | slice:0:10" [routerLink]="['/destination', destination.destinationGUID.toString()]" class="dropdown-item" (click)="clearSearchBox(searchField)" >
+						{{destination.name}} - {{destination.description}}
+					</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- Destinations -->
+	<ul class="list-group">
+		<div class="row">
+			<a class="list-group-item" (click)="toggleMenu('enabled');" [ngClass]="{'router-link-active': menuItemExpanded === 'enabled'}">
+				<i class="fa fa-link" title="{{ 'ts-enabledDestinations' | translate }}"></i>
+			</a>
+			<a class="list-group-item" (click)="toggleMenu('favorites');" [ngClass]="{'router-link-active': menuItemExpanded === 'favorites'}">
+				<i class="fa fa-star" title="{{ 'ts-favoriteDestinations' | translate }}"></i>
+			</a>
+			<a class="list-group-item" (click)="toggleMenu('other');" [ngClass]="{'router-link-active': menuItemExpanded === 'other'}">
+				<i class="fa fa-globe" title="{{ 'ts-allDestinations' | translate }}"></i>
+			</a>
+		</div>
+
+		<!-- Active destinations -->
+		<div class="scrollable" *ngIf="menuItemExpanded === 'enabled'">
+			<a href="javascript:void(0)" class="list-group-item">ACTIVE1</a>
+			<a href="javascript:void(0)" class="list-group-item">ACTIVE2</a>
+		</div>
+
+		<!-- Favorites destinations -->
+		<div class="scrollable" *ngIf="menuItemExpanded === 'favorites'">
+			<a *ngFor="let destination of favoriteDestinations" class="list-group-item" [routerLink]="['/destination', destination.destinationGUID.toString()]" [routerLinkActive]="['router-link-active']" (click)="clearSearchBox( searchField)" title="{{destination.description}}" >
+				{{destination.name}}
+			</a>
+		</div>
+
+		<!-- Recently used destinations -->
+		<!-- <div class="nested-menu">
+			<a class="list-group-item">
+				<i class="fa fa-calendar-o"></i>&nbsp;{{ 'ts-recentDestinations' | translate }}
+			</a>
+			<li class="nested expand">
+				<ul class="submenu">
+					<li>TODO</li>
+				</ul>
+			</li>
+		</div> -->
+
+		<!-- Other destinations -->
+		<div class="scrollable" *ngIf="menuItemExpanded === 'other'">
+			<a *ngFor="let destination of destinations" class="list-group-item" [routerLink]="['/destination', destination.destinationGUID.toString()]" [routerLinkActive]="['router-link-active']" (click)="clearSearchBox( searchField)" title="{{destination.description}}" >
+				{{destination.name}}
+			</a>
+		</div>
+
+	</ul>
+
+</nav>

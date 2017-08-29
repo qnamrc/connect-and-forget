@@ -1,0 +1,42 @@
+<!-- Systems list -->
+<div class="card" *ngIf="destinationGUID !== undefined">
+	<div class="card-header">{{'ts-serverSystems' | translate}}</div>
+
+	<div class="card-block">
+		<table class="table table-striped table-sm" style="table-layout:fixed">
+
+			<thead>
+				<tr class="row">
+					<th class="col col-sm-4">{{'ts-name' | translate}}</th>
+					<th class="col col-sm-8" colspan="2">{{'ts-description' | translate}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="row" *ngFor="let system of systems; let i = index">
+					<td class="col col-sm-4">
+						<a [routerLink]="['/destination', system.destinationGUID.toString(), 'system', system.systemGUID.toString()]">
+							{{system.name}}
+						</a>
+					</td>
+					<td class="col col-sm-7 text-truncate">
+						{{system.description}}
+					</td>
+					<td class="col col-sm-1">
+						<span class="show-on-hover text-right" *ngIf="system.protocols && system.protocols.length > 0">
+							<div ngbDropdown class="d-inline-block">
+								<i class="fa fa-plug fa-right dropdown-toggle-noarrow" ngbDropdownToggle></i>
+								<div class="dropdown-menu dropdown-menu-right">
+									<!-- <a *ngFor="let protocol of system.protocols" [href]="sanitizeUrl(protocol.uri)" target="_hidden" >
+										{{protocol.shortDescription}}
+									</a> -->
+								</div>
+							</div>
+						</span>
+					</td>
+				</tr>
+			</tbody>
+
+		</table>
+	</div>
+
+</div>

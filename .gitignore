@@ -1,0 +1,54 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+yarn-error.log
+# compiled output
+/web/tmp
+/web/out-tsc
+
+# dependencies
+/web/api/vendor
+/web/node_modules
+/backend/vendor
+/connector/vendor
+
+# IDEs and editors
+web/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.editorconfig
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+web/.sass-cache
+web/connect.lock
+web/coverage
+web/libpeerconnection.log
+npm-debug.log
+testem.log
+web/typings
+
+# e2e
+web/e2e/*.js
+web/e2e/*.map
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Project Files
+_config/*
+_model.xml
+database/_data
+composer.lock
+TODO.txt
+z_*
+# web/src/styles/bootstrap

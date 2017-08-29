@@ -1,0 +1,11 @@
+<div class="welcome-page" [@routerTransition]>
+	<div class="row">
+		<div class="col-md-10 push-md-1">
+			<h1>404 - {{'ts-pageNotFound' | translate}}</h1>
+			<p class="lead">{{'ts-pageDoesNotExist' | translate}}</p>
+			<p class="lead">
+				<a class="btn rounded-btn" [routerLink]="['/']">{{'ts-restart' | translate}}</a>
+			</p>
+		</div>
+	</div>
+</div>

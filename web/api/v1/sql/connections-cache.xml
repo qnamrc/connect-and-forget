@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<statements>
+
+<sql id="0001">
+SELECT
+	json_agg(cacheData) cacheData
+FROM
+	(
+		SELECT
+			cacheData
+		FROM
+			jsonCache
+		WHERE
+			tenantId = :tenantId
+			AND userGUID = :userGUID
+			AND tableName = :tableName
+			AND cacheData->>'connectionGUID' = :connectionGUID
+		ORDER BY
+			cacheData->>'name'
+	) AS jc
+</sql>
+
+<sql id="0002">
+SELECT
+	json_agg(cacheData) cacheData
+FROM
+	(
+		SELECT
+			cacheData
+		FROM
+			jsonCache
+		WHERE
+			tenantId = :tenantId
+			AND userGUID = :userGUID
+			AND tableName = :tableName
+			AND objectGUID = :connectionGUID
+		ORDER BY
+			cacheData->>'name'
+	) AS jc
+</sql>
+
+<sql id="0003">
+SELECT
+	cacheData cacheData
+FROM
+	jsonCache
+WHERE
+	tenantId = :tenantId
+	AND userGUID = :userGUID
+	AND tableName = 'connections'
+</sql>
+
+</statements>

@@ -1,0 +1,45 @@
+<!-- System details -->
+<div class="card" *ngIf="system !== undefined">
+
+	<div class="card-header">{{'ts-systemDetails' | translate}}</div>
+
+	<div class="card-block">
+		<table class="table table-sm" style="table-layout:fixed">
+			<tbody>
+				<tr class="row">
+					<th class="col col-sm-3">{{'ts-name' | translate}}</th>
+					<td class="col col-sm-9">{{system.fqdn}}</td>
+				</tr>
+				<tr class="row">
+					<th class="col col-sm-3">{{'ts-description' | translate}}</th>
+					<td class="col col-sm-9">{{system.description}}</td>
+				</tr>
+				<tr class="row">
+					<th class="col col-sm-3">{{'ts-operatingSystem' | translate}}</th>
+					<td class="col col-sm-9">
+						{{system.os.name}}
+						<span *ngIf="system.os.icon != ''">
+							&nbsp;
+							<i class="fa {{system.os.icon}}"></i>
+						</span>
+					</td>
+				</tr>
+				<tr class="row">
+					<th class="col col-sm-3">{{'ts-ipAddress' | translate}}</th>
+					<td class="col col-sm-9">{{system.ipAddress}} (reale: {{system.customerIpAddress}})</td>
+				</tr>
+				<tr class="row">
+					<th class="col col-sm-3">{{'ts-protocols' | translate}}</th>
+					<td class="col col-sm-9">
+						<a *ngFor="let protocol of system.protocols" [href]="sanitizeUrl(protocol.uri)" target="_hidden" >
+							{{protocol.shortDescription}}
+						</a>
+					</td>
+				</tr>
+				<app-text-editor type="table" caption="{{'ts-comments' | translate}}" [text]="system.comments" placeholderView="{{'ts-noCommentsRO' | translate}}" placeholderEdit="{{'ts-noCommentsRW' | translate}}" (textChanged)="commentsChanged($event)"></app-text-editor>
+			</tbody>
+
+		</table>
+	</div>
+
+</div>

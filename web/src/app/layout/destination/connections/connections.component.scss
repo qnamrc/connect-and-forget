@@ -1,0 +1,34 @@
+// .dropdown button {
+// 	font-weight: bold;
+// }
+.dropdown button i {
+	margin-right: 10px;
+}
+
+
+.connection-enabled {
+	color: green;
+	font-weight: bold;
+}
+.connection-disabled {
+	color: red;
+	font-weight: bold;
+}
+.connection-transitioning {
+	color: orange;
+	font-weight: bold;
+}
+
+
+.link-available {
+	background-color: green;
+	border-radius: 8px;
+}
+.link-unavailable {
+	background-color: red;
+	border-radius: 8px;
+}
+.link-transitioning {
+	background-color: orange;
+	border-radius: 8px;
+}

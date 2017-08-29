@@ -1,0 +1,59 @@
+<!-- Header -->
+<!-- <div style="height:-webkit-fill-available;overflow:hidden"> -->
+<div>
+
+	<div class="row" *ngIf="destination !== undefined">
+
+		<!-- Name and description -->
+		<div class="col col-sm-9">
+
+			<h2>
+				<a [routerLink]="['/destination', destinationGUID.toString()]">
+					{{destination.name}}
+				</a>
+			</h2>
+
+			<h5 class="text-truncate">
+				{{destination.description}}
+				&nbsp;&nbsp;&nbsp;
+				<span class="badge badge-default btn">
+					<i class="fa fa-star" [ngClass]="{'favorite': destination.isFavorite}" (click)="toggleFavorite()"></i>
+				</span>
+			</h5>
+
+		</div>
+
+		<!-- Actions -->
+		<div class="col-sm-3 text-right">
+
+			<!-- Filler -->
+			<h2>&nbsp;</h2>
+
+			<!-- Actions dropdown -->
+			<app-connections [destinationGUID]="destinationGUID"></app-connections>
+
+		</div>
+
+	</div>
+
+	<!-- Content -->
+	<div class="row" *ngIf="destination !== undefined">
+
+		<!-- Left pane: Systems list -->
+		<div class="col col-sm-6">
+			<app-systems [destinationGUID]="destinationGUID"></app-systems>
+		</div>
+
+		<!-- Right pane: destination comments/system details -->
+		<div class="col col-sm-6">
+
+			<!-- Destination data -->
+			<app-text-editor type="box" caption="{{'ts-comments' | translate}}" [text]="destination.comments" placeholderView="{{'ts-noCommentsRO' | translate}}" placeholderEdit="{{'ts-noCommentsRW' | translate}}" (textChanged)="commentsChanged($event)" *ngIf="systemGUID === undefined"></app-text-editor>
+
+			<!-- System details -->
+			<app-system [systemGUID]="systemGUID" *ngIf="systemGUID !== undefined"></app-system>
+
+		</div>
+
+	</div>
+</div>

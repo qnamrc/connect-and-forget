@@ -1,0 +1,16 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+	"pgsql.connection": "postgres://dev:A1d3baran@cafdev/dev",
+	"files.exclude": {
+		"**/.git": true,
+		"**/.svn": true,
+		"**/.hg": true,
+		"**/.vscode": true,
+		"**/CVS": true,
+		"**/.DS_Store": true,
+		"**/node_modules": true,
+		"**/vendor": true
+	},
+	"editor.minimap.enabled": true,
+	"window.restoreWindows": "all"
+}

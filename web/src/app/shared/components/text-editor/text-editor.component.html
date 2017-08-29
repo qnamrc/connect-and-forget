@@ -1,0 +1,47 @@
+<div class="card" *ngIf="type === 'box'">
+
+	<div class="card-header">{{caption}}
+
+		<!-- Button to edit comments -->
+		<a href="javascript:void(0);" (click)="startEditing()" *ngIf="!editing">
+			<i class="fa fa-pencil fa-lg float-right"></i>&nbsp;&nbsp;&nbsp;
+		</a>
+
+		<!-- Buttons to manage comments editing -->
+		<span *ngIf="editing" class="float-right">
+			<a href="javascript:void(0);" (click)="saveChanges()"><i class="fa fa-check fa-lg"></i></a>
+			&nbsp;&nbsp;&nbsp;
+			<a href="javascript:void(0);" (click)="cancelEditing()"><i class="fa fa-close fa-lg"></i></a>
+		</span>
+
+	</div>
+
+	<!-- Comments visualizer -->
+	<div class="card-block" *ngIf="!editing">
+		<quill-editor [(ngModel)]="text" [readOnly]="true" [modules]="{toolbar: false}" placeholder="{{placeholderView}}"></quill-editor>
+	</div>
+</div>
+<!-- Comments editor, outside to avoid extra boxing -->
+<quill-editor [(ngModel)]="text" [modules]="modules" placeholder="{{placeholderEdit}}" *ngIf="editing && type === 'box'"></quill-editor>
+
+
+
+<tr class="row" *ngIf="type === 'table'">
+	<th class="col col-sm-12">
+		{{caption}}
+		<a href="javascript:void(0);" (click)="startEditing();" *ngIf="!editing">
+			<i class="fa fa-pencil float-right"></i>
+		</a>
+		<span *ngIf="editing" class="float-right">
+			<a href="javascript:void(0);" (click)="saveChanges();"><i class="fa fa-check"></i></a>
+			&nbsp;&nbsp;&nbsp;
+			<a href="javascript:void(0);" (click)="cancelEditing();"><i class="fa fa-close"></i></a>
+		</span>
+	</th>
+</tr>
+<tr class="row" *ngIf="type === 'table'">
+	<td class="col col-sm-12" [ngStyle]="{'border-top': (editing ? 'none' : '')}">
+		<quill-editor [(ngModel)]="text" [readOnly]="true" [modules]="{toolbar: false}" placeholder="{{placeholderView}}" *ngIf="!editing"></quill-editor>
+		<quill-editor [(ngModel)]="text" [modules]="modules" placeholder="{{placeholderEdit}}" *ngIf="editing"></quill-editor>
+	</td>
+</tr>

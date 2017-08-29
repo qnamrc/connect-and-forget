@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<statements>
+
+<sql id="000x">
+SELECT
+	userGUID
+FROM
+	jsonCache
+WHERE
+	tenantId = :tenantId
+	AND tableName = :tableName
+	AND objectGUID = :destinationGUID
+</sql>
+
+<sql id="0001">
+INSERT INTO jsonCache(
+	tenantId,
+	userGUID,
+	objectGUID,
+	tableName,
+	lastChanged,
+	cacheData
+)
+SELECT
+	d.tenantId,
+	a.granteeGUID,
+	d.destinationGUID,
+	'destinations',
+	current_timestamp,
+	json_build_object(
+		'destinationGUID', d.destinationGUID,
+		'name', d.name,
+		'description', d.description,
+		'comments', d.comments,
+		'category', d.category,
+		'contacts', d.contacts,
+		'availability', d.availability,
+		'maintenanceNotice', d.maintenanceNotice,
+		'isFavorite', CASE WHEN f.userGUID IS NULL THEN 'false' ELSE 'true' END
+	)
+FROM
+	destinations d
+	JOIN acls a ON d.tenantId = a.tenantId AND d.destinationGUID = a.objectGUID
+	LEFT JOIN favorites f ON d.tenantId = a.tenantId AND d.destinationGUID = f.objectGUID AND a.granteeGUID = f.userGUID
+WHERE
+	a.accessMask = B'00000001'
+	AND d.tenantId = :tenantId
+	AND d.destinationGUID = :destinationGUID
+--	AND a.granteeGUID = :userGUID
+ON CONFLICT (
+  tenantId,
+	userGUID,
+	objectGUID
+) DO UPDATE SET
+	lastChanged = current_timestamp,
+	cacheData = EXCLUDED.cacheData
+RETURNING
+	userGUID
+</sql>
+
+<sql id="0001.a">
+</sql>
+
+</statements>

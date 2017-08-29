@@ -1,0 +1,27 @@
+<span *ngIf="connections !== undefined">
+
+	<div ngbDropdown class="d-inline-block" *ngFor="let connection of connections" style="padding-left:10px">
+
+		<button type="button" class="btn btn-link" ngbDropdownToggle title="{{connection.name}}">
+			<i class="fa fa-lg fa-circle-o" [ngClass]="[permissions[connection.permission], states[connection.status]]" style="margin-right:10px"></i>{{connection.name}}
+		</button>
+
+		<div class="dropdown-menu dropdown-menu-right">
+
+			<button type="button" class="btn btn-link dropdown-item" *ngIf="connection.permission === ConnectionPermission.Disabled" title="{{'ts-enableDescription' | translate}}">
+				<i class="fa fa-lg fa-play" style="color:green"></i>{{'ts-enable' | translate}}
+			</button>
+			<button type="button" class="btn btn-link dropdown-item" *ngIf="connection.permission === ConnectionPermission.Enabled">
+				<i class="fa fa-lg fa-stop" style="color:red"></i>&nbsp;&nbsp;{{'ts-disable' | translate}}
+			</button>
+			<button type="button" class="btn btn-link dropdown-item" *ngIf="connection.status === LinkStatus.Failed">
+				<i class="fa fa-lg fa-random" style="color:orange"></i>&nbsp;&nbsp;{{'ts-restart' | translate}}
+			</button>
+
+			<!-- <li class="dropdown-divider"></li> -->
+
+		</div>
+
+	</div>
+
+</span>

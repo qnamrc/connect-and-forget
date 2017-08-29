@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<statements>
+
+<sql id="0001">
+INSERT INTO
+	favorites
+VALUES (
+  :tenantId,
+  :objectGUID,
+  :userGUID
+) ON CONFLICT DO NOTHING
+</sql>
+
+<sql id="0002">
+DELETE FROM
+	favorites
+WHERE
+  tenantId = :tenantId
+  AND objectGUID = :objectGUID
+  AND userGUID = :userGUID
+</sql>
+
+<sql id="0003">
+SELECT destinationscacheupdate(:userGUID::UUID, :destinationGUID::UUID)
+</sql>
+
+</statements>
