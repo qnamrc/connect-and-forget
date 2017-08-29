@@ -31,8 +31,8 @@ abstract class Common {
 		try {
 			return new \RoyallTheFourth\SmoothPdo\DataObject(new \PDO(
 				'pgsql:host=' . $_SERVER['DB_HOST'] . ';dbname=' . $_SERVER['DB_NAME'],
-				$_SERVER['DB_USER'],
-				$_SERVER['DB_PASS']
+				$_SERVER['DB_USERNAME'],
+				$_SERVER['DB_PASSWORD']
 			));
 		} catch(Exception $e) {
 			header('HTTP/ 500 ' . $e->getMessage(), true, 500);

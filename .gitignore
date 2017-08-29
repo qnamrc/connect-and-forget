@@ -47,8 +47,8 @@ Thumbs.db
 # Project Files
 _config/*
 _model.xml
+config.inc
 database/_data
 composer.lock
 TODO.txt
 z_*
-# web/src/styles/bootstrap

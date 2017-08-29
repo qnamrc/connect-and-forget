@@ -53,10 +53,10 @@ export class MqService {
 			}
 
 			this.mqtt.connect({
-				hostname: this.mqttConfig['hostname'],
+				hostname: this.mqttConfig['host'],
 				port: this.mqttConfig['port'],
 				path: this.mqttConfig['path'],
-				username: this.mqttConfig['user'],
+				username: this.mqttConfig['username'],
 				password: this.mqttConfig['password'],
 				clientId: mqttClientId
 			});
@@ -75,7 +75,7 @@ export class MqService {
 
 			// Already connected: simply publish the message after managing the topic prefix
 			return this.mqtt
-			.publish(this.mqttConfig['topicPrefix'] + topic, message, options);
+			.publish(this.mqttConfig['prefix'] + topic, message, options);
 
 		} else {
 
@@ -86,7 +86,7 @@ export class MqService {
 				// Publish the message after managing the topic prefix
 				if (this.isConnected) {
 					return this.mqtt
-					.publish(this.mqttConfig['topicPrefix'] + topic, message, options);
+					.publish(this.mqttConfig['prefix'] + topic, message, options);
 				}
 
 				// Still not connected: throw exception to retry
@@ -114,9 +114,9 @@ export class MqService {
 
 			// Already connected: simply return the subscription after managing the topic prefix
 			return this.mqtt
-			.observe(this.mqttConfig['topicPrefix'] + topic)
+			.observe(this.mqttConfig['prefix'] + topic)
 			.map( (m: MqttMessage) => {
-				m.topic = m.topic.replace(this.mqttConfig['topicPrefix'], '');
+				m.topic = m.topic.replace(this.mqttConfig['prefix'], '');
 				return m;
 			});
 
@@ -129,9 +129,9 @@ export class MqService {
 				// Return the subscription after managing the topic prefix
 				if (this.isConnected) {
 					return this.mqtt
-					.observe(this.mqttConfig['topicPrefix'] + topic)
+					.observe(this.mqttConfig['prefix'] + topic)
 					.map( (m: MqttMessage) => {
-						m.topic = m.topic.replace(this.mqttConfig['topicPrefix'], '');
+						m.topic = m.topic.replace(this.mqttConfig['prefix'], '');
 						return m;
 					});
 				}

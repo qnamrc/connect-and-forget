@@ -20,8 +20,8 @@ abstract class Common {
 		try {
 			return new \RoyallTheFourth\SmoothPdo\DataObject(new \PDO(
 				'pgsql:host=' . $_SERVER['DB_HOST'] . ';dbname=' . $_SERVER['DB_NAME'],
-				$_SERVER['DB_USER'],
-				$_SERVER['DB_PASS']
+				$_SERVER['DB_USERNAME'],
+				$_SERVER['DB_PASSWORD']
 			));
 		} catch(Exception $e) {
 			die();
@@ -39,8 +39,8 @@ abstract class Common {
 		// Try to publish
 		$published = false;
 		$mq = new \phpMQTT($_SERVER['MQ_HOST'], $_SERVER['MQ_PORT'], 'backend');	// TODO: fix client name
-		if ($mq->connect(true, NULL, $_SERVER['MQ_USER'], $_SERVER['MQ_PASS'])) {
-			$mq->publish($_SERVER['MQ_PREF'] . $topic, $content, $qos, $retain);
+		if ($mq->connect(true, NULL, $_SERVER['MQ_USERNAME'], $_SERVER['MQ_PASSWORD'])) {
+			$mq->publish($_SERVER['MQ_PREFIX'] . $topic, $content, $qos, $retain);
 			$mq->close();
 			$logger->debug("Published $content to $topic");
 			return true;
