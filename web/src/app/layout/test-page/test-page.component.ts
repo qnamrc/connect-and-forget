@@ -118,60 +118,16 @@ export class TestPageComponent implements OnInit {
 
 
 	test() {
-		const json = JSON.parse('{"linkguid":"df5b709a-3a67-4795-82a4-e0f45cc4edc4","destinationguid":"df5b709a-3a67-4795-82a4-e0f45cc4edc4","status":"Established","connection":"{\"connectionGUID\" : \"7821f78c-0c0c-47e9-99ae-a69ca294e361\", \"destinationGUID\" : \"df5b709a-3a67-4795-82a4-e0f45cc4edc4\", \"name\" : \"ALESSANDRIA\", \"description\" : null, \"comments\" : null, \"type\" : \"Shared\", \"subnet\" : \"10.251.30.0\/25\", \"enableInstructions\" : null}"}') as Object;
-		console.log(json);
+		const updateData = {
+			'connectionGUID': 'd4ca1a9d-a846-446a-9325-d933a80bef4f'
+		};
 
-		const newObj = new Link(json);
-
-		// Verify mandatory fields have been supplied
-		// let errorMessage = '';
-		// for (const field in fields) {
-		// 	if (true) {
-		// 		const fieldLower = field.toLowerCase();
-		// 		const isMandatory = fields[field];
-		// 		// console.log(field, fieldLower, fields[field], json.hasOwnProperty(field), json.hasOwnProperty(fieldLower));
-		// 		if (!json.hasOwnProperty(field) && !json.hasOwnProperty(fieldLower)) {
-		// 			if (isMandatory) { errorMessage += ( (errorMessage === '' ) ? 'Missing fields: ' : ', ') + field; }
-		// 		} else {
-		// 			if (json.hasOwnProperty(field)) {
-		// 				newObj[field] = json[field];
-		// 			} else {
-		// 				newObj[field] = json[fieldLower];
-		// 			}
-		// 		}
-		// 	}
-		// }
-		// console.log(errorMessage);
-		console.log(newObj);
-
-		// if (mandatoryMembers !== undefined) {
-		// 	let errorMessage = '';
-		// 	for (const i in mandatoryMembers) {
-		// 		// for (let i = 0; i < mandatoryMembers.length; i++) {
-		// 		if (!json.hasOwnProperty(mandatoryMembers[i]) && json.hasOwnProperty(mandatoryMembers[i].toLowerCase())) {
-		// 			errorMessage += ( (errorMessage === '' ) ? 'Missing fields: ' : ', ') + mandatoryMembers[i];
-		// 		}
-		// 	}
-		// 	if (errorMessage !== '') { throw new TypeError(errorMessage); }
-		// }
-
-		// // Load base properties from JSON object
-		// for (const key in json) {
-		// 	if (json.hasOwnProperty(key)) {
-		// 		this[key] = json[key];
-		// 	}
-		// }
+		this.rest.post('/links', updateData)
+		.subscribe(
+			(data: Object) => {}
+		);
 
 	}
 
-	// let status1 = Number(LinkStatus['Terminated']);
-	// console.log(status1);
-	// status1 = Number(LinkStatus['TerminaXted']);
-	// console.log(status1);
-	// if (status in LinkStatus) {
-	// 	this.status = status;
-	// } else {
-	// 	throw SyntaxError(status + ' is not a valid LinkStatus');
-	// }
 }
 

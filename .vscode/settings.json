@@ -11,6 +11,6 @@
 		"**/node_modules": true,
 		"**/vendor": true
 	},
-	"editor.minimap.enabled": true,
+	"editor.minimap.enabled": false,
 	"window.restoreWindows": "all"
 }

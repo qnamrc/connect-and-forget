@@ -2,16 +2,16 @@
 -- TABLE: operatingSystems
 -- ----------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS operatingSystems;
-CREATE TABLE public.operatingsystems (
-  osid smallserial NOT NULL,
-  osguid uuid NOT NULL DEFAULT gen_random_uuid(),
+CREATE TABLE public.operatingSystems (
+  osId smallserial NOT NULL,
+  osGUID uuid NOT NULL DEFAULT gen_random_uuid(),
   name text,
   icon text,
-  defaultprotocols smallint[],
-  CONSTRAINT operatingsystems1 PRIMARY KEY (osid),
-  CONSTRAINT osguidoperatingsystems2 UNIQUE (osguid)
+  defaultProtocols smallint[],
+  CONSTRAINT operatingSystems1 PRIMARY KEY (osId),
+  CONSTRAINT operatingSystems2 UNIQUE (osGUID)
 );
-ALTER TABLE public.operatingsystems
+ALTER TABLE public.operatingSystems
   OWNER TO postgres;
-GRANT ALL ON TABLE public.operatingsystems TO postgres;
-GRANT SELECT, UPDATE, INSERT, TRUNCATE, DELETE ON TABLE public.operatingsystems TO caf;
+GRANT ALL ON TABLE public.operatingSystems TO postgres;
+GRANT SELECT, UPDATE, INSERT, TRUNCATE, DELETE ON TABLE public.operatingSystems TO caf;

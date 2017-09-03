@@ -4,9 +4,8 @@ namespace CaF;
 
 // Declare libraries
 use \PDO;
-use Respect\Rest\Routable;
 
-class Destinations implements Routable {
+class Destinations implements \Respect\Rest\Routable {
 
 
 	//--------------------------------------------------------------------------------------------------------------------
@@ -17,8 +16,7 @@ class Destinations implements Routable {
 		$logger = Common::getLogger();
 
 		// Get user GUID
-		$userGUID = getenv('USER_GUID');
-		if (!$userGUID) {
+		if (!$userGUID = getenv('USER_GUID')) {
 			http_response_code(401);
 			die();
 		}
@@ -36,10 +34,8 @@ class Destinations implements Routable {
 			die();
 		}
 
-		// Get DB connection
+		// Get DB connection and load SQL statements
 		$db = Common::getDBConnection();
-
-		// Load SQL statements
 		$sqlStmts = Common::loadSqlStatements(__FILE__);
 
 		// Prepare changes
@@ -117,8 +113,7 @@ class Destinations implements Routable {
 	public function put($destinationGUID) {
 
 		// Get user GUID
-		$userGUID = getenv('USER_GUID');
-		if (!$userGUID) {
+		if (!$userGUID = getenv('USER_GUID')) {
 			http_response_code(401);
 			die();
 		}

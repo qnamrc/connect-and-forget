@@ -3,26 +3,26 @@
 -- ----------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS systems;
 CREATE TABLE public.systems (
-  tenantid integer NOT NULL,
-  systemid serial NOT NULL,
-  connectionid integer NOT NULL,
+  tenantId integer NOT NULL,
+  systemId serial NOT NULL,
+  connectionId integer NOT NULL,
   sequence smallint,
-  osid smallint,
+  osId smallint,
 --	protocols PROTOCOLS[],
-  systemguid uuid NOT NULL DEFAULT gen_random_uuid(),
+  systemGUID uuid NOT NULL DEFAULT gen_random_uuid(),
   name name NOT NULL,
   description character varying(255),
   comments text,
-  ipaddress inet NOT NULL,
-  customeripaddress inet NOT NULL,
-  deviceipaddress inet,
-  updatedns boolean DEFAULT false,
-  lastfoundup timestamp without time zone,
-  lastchanged timestamp without time zone DEFAULT now(),
+  ipAddress inet NOT NULL,
+  customerIpAddress inet NOT NULL,
+  deviceIpAddress inet,
+  updateDns boolean DEFAULT false,
+  lastFoundUp timestamp without time zone,
   protocols protocols[],
-  lastchangedby uuid,
-  CONSTRAINT systems1 PRIMARY KEY (tenantid, connectionid, systemid),
-  CONSTRAINT systems2 UNIQUE (systemguid)
+  lastChanged timestamp without time zone DEFAULT now(),
+  lastChangedBy uuid,
+  CONSTRAINT systems1 PRIMARY KEY (tenantId, connectionId, systemId),
+  CONSTRAINT systems2 UNIQUE (systemGUID)
 );
 ALTER TABLE public.systems
   OWNER TO postgres;

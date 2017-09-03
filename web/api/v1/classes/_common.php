@@ -2,10 +2,7 @@
 namespace CaF;
 
 
-use \Pheanstalk\Pheanstalk as Pheanstalk;
-
-
-abstract class Common {
+class Common {
 
 
 	//########################################################################################################################
@@ -17,10 +14,19 @@ abstract class Common {
 
 
 	//########################################################################################################################
-	// Get JobQueue connection
+	// Get client IP address
 	//########################################################################################################################
-	public static function getJQConnection() {
-		return new Pheanstalk($_SERVER['JQ_HOST'] . ($_SERVER['JQ_PORT'] == '' ? '' : ':' . $_SERVER['JQ_PORT']));
+	public function getClientIPAddress(){
+
+		if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)){
+			return end(array_values(array_filter(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']))));
+		} elseif (array_key_exists('REMOTE_ADDR', $_SERVER)) {
+			return $_SERVER['REMOTE_ADDR'];
+		} elseif (array_key_exists('HTTP_CLIENT_IP', $_SERVER)) {
+			return $_SERVER['HTTP_CLIENT_IP'];
+		}
+
+		return '';
 	}
 
 
@@ -30,14 +36,20 @@ abstract class Common {
 	public static function getDBConnection() {
 		try {
 			return new \RoyallTheFourth\SmoothPdo\DataObject(new \PDO(
-				'pgsql:host=' . $_SERVER['DB_HOST'] . ';dbname=' . $_SERVER['DB_NAME'],
-				$_SERVER['DB_USERNAME'],
-				$_SERVER['DB_PASSWORD']
+				'pgsql:service=t' . $_SERVER['TENANT_ID']
 			));
 		} catch(Exception $e) {
 			header('HTTP/ 500 ' . $e->getMessage(), true, 500);
 			die();
 		}
+	}
+
+
+	//########################################################################################################################
+	// Get Job Queue connection
+	//########################################################################################################################
+	public static function getJQConnection() {
+		return new \Pheanstalk\Pheanstalk($_SERVER['JQ_HOST'] . ($_SERVER['JQ_PORT'] == '' ? '' : ':' . $_SERVER['JQ_PORT']));
 	}
 
 
@@ -79,7 +91,7 @@ abstract class Common {
 		$sqlStmts = array();
 		foreach ($xml as $i => $sql) {
 			$id = $sql->attributes();
-			$sqlStmts["$id"] = "$sql";
+			$sqlStmts["$id"] = (string)$sql;
 		}
 
 		return $sqlStmts;

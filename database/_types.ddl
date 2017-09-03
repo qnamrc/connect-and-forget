@@ -1,3 +1,4 @@
+CREATE TYPE AUTH_ROLE AS ENUM ('User', 'Operator', 'Administrator');
 CREATE TYPE CONNECTION_TYPE AS ENUM ('Single', 'Shared');
 CREATE TYPE DESTINATION_AVAILABILITY AS ENUM ('Available', 'Unavailable', 'Maintenance');
 CREATE TYPE IP_PORT AS (

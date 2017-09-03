@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<statements>
+
+<sql id="0001"><![CDATA[
+SELECT
+	l.tenantId,
+	l.linkGUID,
+	l.connectionId,
+	array_to_json(l.ipAddresses) ipAddresses,
+	l.userguid,
+	c.connectionGUID,
+	c.name,
+	c.type,
+	c.subnet,
+	c.configData,
+	t.technologyId,
+	t.technolgyGUID,
+	t.shortDescription
+FROM
+	links l
+	JOIN connections c ON l.tenantId = c.tenantId AND l.connectionId = c.connectionId
+	JOIN technologies t ON c.technologyId = t.technologyId
+	JOIN destinations d ON c.tenantId = d.tenantId AND c.destinationId = d.destinationId
+	JOIN acls a ON d.tenantId = a.tenantId AND d.destinationGUID = a.objectGUID AND a.granteeGUID = :userGUID
+WHERE
+	l.tenantId = :tenantId
+	AND l.linkGUID = :linkGUID
+]]></sql>
+
+</statements>

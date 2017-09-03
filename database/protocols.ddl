@@ -3,15 +3,15 @@
 -- ----------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS protocols;
 CREATE TABLE public.protocols (
-  protocolid smallserial NOT NULL,
-  protocolguid uuid NOT NULL DEFAULT gen_random_uuid(),
-  shortdescription character varying(10),
+  protocolId smallserial NOT NULL,
+  protocolGUID uuid NOT NULL DEFAULT gen_random_uuid(),
+  shortDescription character varying(10),
   description character varying(255),
   uri character varying(255),
-  useindynamicsystems boolean DEFAULT false,
-  defaultports ip_port[],
-  CONSTRAINT protocols1 PRIMARY KEY (protocolid),
-  CONSTRAINT protocols2 UNIQUE (protocolguid)
+  useInDynamicSystems boolean DEFAULT false,
+  defaultPorts IP_PORT[],
+  CONSTRAINT protocols1 PRIMARY KEY (protocolId),
+  CONSTRAINT protocols2 UNIQUE (protocolGUID)
 );
 ALTER TABLE public.protocols
   OWNER TO postgres;

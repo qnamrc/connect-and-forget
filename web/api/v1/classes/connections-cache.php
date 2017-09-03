@@ -4,9 +4,8 @@ namespace CaF;
 
 // Declare libraries
 use \PDO;
-use Respect\Rest\Routable;
 
-class ConnectionsCache implements Routable {
+class ConnectionsCache implements \Respect\Rest\Routable {
 
 	//--------------------------------------------------------------------------------------------------------------------
 	// GET: Read
@@ -14,16 +13,13 @@ class ConnectionsCache implements Routable {
 	public function get($connectionGUID = null, $childTableName = null) {
 
 		// Get user GUID
-		$userGUID = getenv('USER_GUID');
-		if (!$userGUID) {
+		if (!$userGUID = getenv('USER_GUID')) {
 			http_response_code(401);
 			die();
 		}
 
-		// Get DB connection
+		// Get DB connection and load SQL statements
 		$db = Common::getDBConnection();
-
-		// Load SQL statements
 		$sqlStmts = Common::loadSqlStatements(__FILE__);
 
 		// Prepare SQL statement based on request
@@ -60,7 +56,7 @@ class ConnectionsCache implements Routable {
 		// Bind common parameters
 		$stmt = $stmt
 		->bindParam(':tenantId', $_SERVER['TENANT_ID'], PDO::PARAM_INT)
-		->bindParam(':userGUID', $userGUID, PDO::PARAM_STR);
+		->bindParam(':userGUID', $userGUID, PDO::PARAM_STR, 36);
 
 		// Read data and write answer (or error)
 		$cacheData = $stmt->execute()->fetch(PDO::FETCH_ASSOC)['cachedata'];

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <statements>
 
-<sql id="0001">
+<sql id="0001"><![CDATA[
 INSERT INTO
 	favorites
 VALUES (
@@ -9,19 +9,19 @@ VALUES (
   :objectGUID,
   :userGUID
 ) ON CONFLICT DO NOTHING
-</sql>
+]]></sql>
 
-<sql id="0002">
+<sql id="0002"><![CDATA[
 DELETE FROM
 	favorites
 WHERE
   tenantId = :tenantId
   AND objectGUID = :objectGUID
   AND userGUID = :userGUID
-</sql>
+]]></sql>
 
-<sql id="0003">
+<sql id="0003"><![CDATA[
 SELECT destinationscacheupdate(:userGUID::UUID, :destinationGUID::UUID)
-</sql>
+]]></sql>
 
 </statements>

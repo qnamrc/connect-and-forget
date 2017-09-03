@@ -2,7 +2,7 @@
 namespace CaF;
 
 
-abstract class Common {
+class Common {
 
 
 	//########################################################################################################################
@@ -19,37 +19,11 @@ abstract class Common {
 	public static function getDBConnection() {
 		try {
 			return new \RoyallTheFourth\SmoothPdo\DataObject(new \PDO(
-				'pgsql:host=' . $_SERVER['DB_HOST'] . ';dbname=' . $_SERVER['DB_NAME'],
-				$_SERVER['DB_USERNAME'],
-				$_SERVER['DB_PASSWORD']
+				'pgsql:service=t' . $_SERVER['TENANT_ID']
 			));
 		} catch(Exception $e) {
 			die();
 		}
-	}
-
-
-	//########################################################################################################################
-	// Get Message Queue connection
-	//########################################################################################################################
-	public static function mqPublish($topic, $content, $qos = 0, $retain = 0) {
-
-		$logger = Common::getLogger();
-
-		// Try to publish
-		$published = false;
-		$mq = new \phpMQTT($_SERVER['MQ_HOST'], $_SERVER['MQ_PORT'], 'backend');	// TODO: fix client name
-		if ($mq->connect(true, NULL, $_SERVER['MQ_USERNAME'], $_SERVER['MQ_PASSWORD'])) {
-			$mq->publish($_SERVER['MQ_PREFIX'] . $topic, $content, $qos, $retain);
-			$mq->close();
-			$logger->debug("Published $content to $topic");
-			return true;
-		}
-
-		// Log errors or success
-		$logger->error("Couldn't publish $content to $topic");
-		return false;
-
 	}
 
 
@@ -99,10 +73,34 @@ abstract class Common {
 		$sqlStmts = array();
 		foreach ($xml as $i => $sql) {
 			$id = $sql->attributes();
-			$sqlStmts["$id"] = "$sql";
+			$sqlStmts["$id"] = (string)$sql;
 		}
 
 		return $sqlStmts;
+
+	}
+
+
+	//########################################################################################################################
+	// Get Message Queue connection
+	//########################################################################################################################
+	public static function mqPublish($topic, $content, $qos = 0, $retain = 0) {
+
+		$logger = self::getLogger();
+
+		// Try to publish
+		$published = false;
+		$mq = new \phpMQTT($_SERVER['MQ_HOST'], $_SERVER['MQ_PORT'], 'backend');	// TODO: fix client name
+		if ($mq->connect(true, NULL, $_SERVER['MQ_USERNAME'], $_SERVER['MQ_PASSWORD'])) {
+			$mq->publish($_SERVER['MQ_PREFIX'] . $topic, $content, $qos, $retain);
+			$mq->close();
+			$logger->debug("Published $content to $topic");
+			return true;
+		}
+
+		// Log errors or success
+		$logger->error("Couldn't publish $content to $topic");
+		return false;
 
 	}
 

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <statements>
 
-<sql id="0001">
+<sql id="0001"><![CDATA[
 SELECT
 	c.tenantid,
 	c.connectionid,
@@ -10,20 +10,21 @@ SELECT
 	c.name,
 	c.type,
 	c.subnet,
-	c.capabilities,
+	t.shortDescription technology,
 	l.linkguid,
 	l.ipaddresses,
 	l.permission,
 	l.status
 FROM
 	connections c
+	JOIN technologies t on c.technologyId = t.technologyId
 	LEFT JOIN links l ON c.tenantId = l.tenantId AND c.connectionId = l.connectionId AND l.userGUID = :userGUID
 WHERE
-	c.tenantId = 1
+	c.tenantId = :tenantId
 	AND c.connectionGUID = :connectionGUID
-</sql>
+]]></sql>
 
-<sql id="0002">
+<sql id="0002"><![CDATA[
 INSERT INTO links (
 	tenantId,
 	connectionId,
@@ -39,20 +40,20 @@ INSERT INTO links (
 	ARRAY[:ipAddress::cidr],
 	:userGUID,
 	'Queued',
-	'Terminated'
+	'Queued'
 )
 ON CONFLICT (
-	tenantid,
-	connectionid
+	tenantId,
+	connectionId
 ) DO UPDATE SET
-	lastchanged = CURRENT_TIMESTAMP,
-	ipaddresses = CASE WHEN links.ipaddresses IS NULL THEN EXCLUDED.ipaddresses ELSE array_append(links.ipaddresses, :ipAddress) END,
+	lastChanged = CURRENT_TIMESTAMP,
+	ipAddresses = CASE WHEN links.ipAddresses IS NULL THEN EXCLUDED.ipAddresses WHEN ARRAY[:ipAddress::cidr] <@ links.ipAddresses THEN EXCLUDED.ipAddresses ELSE array_append(links.ipAddresses, :ipAddress) END,
 	permission = 'Reconfiguring'
 RETURNING
 	*
-</sql>
+]]></sql>
 
-<sql id="0003">
+<sql id="0002"><![CDATA[
 INSERT INTO links (
 	tenantId,
 	connectionId,
@@ -68,21 +69,18 @@ INSERT INTO links (
 	ARRAY[:ipAddress::cidr],
 	:userGUID,
 	'Queued',
-	'Terminated'
+	'Queued'
 )
 ON CONFLICT (
-	tenantid,
-	connectionid,
-	userguid
+	tenantId,
+	connectionId,
+	userGUID
 ) DO UPDATE SET
-	lastchanged = CURRENT_TIMESTAMP,
-	ipaddresses = CASE WHEN links.ipaddresses IS NULL THEN EXCLUDED.ipaddresses ELSE array_append(links.ipaddresses, :ipAddress) END,
+	lastChanged = CURRENT_TIMESTAMP,
+	ipAddresses = CASE WHEN links.ipAddresses IS NULL THEN EXCLUDED.ipAddresses WHEN ARRAY[:ipAddress::cidr] <@ links.ipAddresses THEN EXCLUDED.ipAddresses ELSE array_append(links.ipAddresses, :ipAddress) END,
 	permission = 'Reconfiguring'
 RETURNING
 	*
-</sql>
-
-<sql id="0001.a">
-</sql>
+]]></sql>
 
 </statements>

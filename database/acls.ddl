@@ -3,11 +3,11 @@
 -- ----------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS acls;
 CREATE TABLE public.acls (
-  tenantid integer NOT NULL,
-  objectguid uuid NOT NULL,
-  granteeguid uuid NOT NULL,
-  accessmask bit(8),
-  CONSTRAINT acls1 PRIMARY KEY (tenantid, objectguid, granteeguid)
+  tenantId integer NOT NULL,
+  objectGUID uuid NOT NULL,
+  granteeGUID uuid NOT NULL,
+  accessMask bit(8),
+  CONSTRAINT acls1 PRIMARY KEY (tenantId, objectGUID, granteeGUID)
 );
 ALTER TABLE public.acls
   OWNER TO postgres;

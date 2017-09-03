@@ -3,21 +3,20 @@
 -- ----------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS destinations;
 CREATE TABLE destinations (
-  tenantid integer NOT NULL,
-  destinationid serial NOT NULL,
-  destinationguid uuid NOT NULL DEFAULT gen_random_uuid(),
+  tenantId integer NOT NULL,
+  destinationId serial NOT NULL,
+  destinationGUID uuid NOT NULL DEFAULT gen_random_uuid(),
   name name NOT NULL,
   description character varying(255),
   comments text,
-  category character varying(32),
-  contacts jsonb,
-  availability destination_availability DEFAULT 'Unavailable'::destination_availability,
-  maintenancenotice text,
-  lastchanged timestamp without time zone DEFAULT now(),
-  lastchangeby character varying(128),
-  lastchangedby uuid,
-  CONSTRAINT destinations_pkey PRIMARY KEY (tenantid, destinationid),
-  CONSTRAINT destinations_destinationguid_key UNIQUE (destinationguid)
+--  category character varying(32),
+--  contacts jsonb,
+  availability DESTINATION_AVAILABILITY DEFAULT 'Unavailable'::DESTINATION_AVAILABILITY,
+  maintenanceNotice text,
+  lastChanged timestamp without time zone DEFAULT now(),
+  lastChangedBy uuid,
+  CONSTRAINT destinations1 PRIMARY KEY (tenantId, destinationId),
+  CONSTRAINT destinations2 UNIQUE (destinationGUID)
 );
 ALTER TABLE public.destinations
   OWNER TO postgres;

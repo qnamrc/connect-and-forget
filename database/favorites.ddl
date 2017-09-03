@@ -3,10 +3,10 @@
 -- ----------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS favorites;
 CREATE TABLE public.favorites (
-  tenantid integer NOT NULL,
-  objectguid uuid NOT NULL,
-  userguid uuid NOT NULL,
-  CONSTRAINT favorites1 PRIMARY KEY (tenantid, objectguid, userguid)
+  tenantId integer NOT NULL,
+  objectGUID uuid NOT NULL,
+  userGUID uuid NOT NULL,
+  CONSTRAINT favorites1 PRIMARY KEY (tenantId, objectGUID, userGUID)
 );
 ALTER TABLE public.favorites
   OWNER TO postgres;

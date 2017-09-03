@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<statements>
+
+<sql id="0001"><![CDATA[
+SELECT
+	userId,
+	userGUID,
+	name
+FROM
+	users
+WHERE
+	tenantId = :tenantId
+	AND name = :name
+]]></sql>
+
+<sql id="0001.a"><![CDATA[
+]]></sql>
+
+</statements>

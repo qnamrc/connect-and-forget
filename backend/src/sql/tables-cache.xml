@@ -1,18 +1,7 @@
 <?xml version="1.0"?>
 <statements>
 
-<sql id="000x">
-SELECT
-	userGUID
-FROM
-	jsonCache
-WHERE
-	tenantId = :tenantId
-	AND tableName = :tableName
-	AND objectGUID = :destinationGUID
-</sql>
-
-<sql id="0001">
+<sql id="0001"><![CDATA[
 INSERT INTO jsonCache(
 	tenantId,
 	userGUID,
@@ -56,9 +45,6 @@ ON CONFLICT (
 	cacheData = EXCLUDED.cacheData
 RETURNING
 	userGUID
-</sql>
-
-<sql id="0001.a">
-</sql>
+]]></sql>
 
 </statements>

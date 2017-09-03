@@ -4,9 +4,8 @@ namespace CaF;
 
 // Declare libraries
 use \PDO;
-use Respect\Rest\Routable;
 
-class Connections implements Routable {
+class Connections implements \Respect\Rest\Routable {
 
 
 	//--------------------------------------------------------------------------------------------------------------------
@@ -15,8 +14,7 @@ class Connections implements Routable {
 	public function get($connectionGUID = null) {
 
 		// Get user id
-		$userGUID = getenv('USER_GUID');
-		if (!$userGUID) {
+		if (!$userGUID = getenv('USER_GUID')) {
 			http_response_code(401);
 			die();
 		}
@@ -27,10 +25,8 @@ class Connections implements Routable {
 			die();
 		}
 
-		// Get DB connection
+		// Get DB connection and load SQL statements
 		$db = Common::getDBConnection();
-
-		// Load SQL statements
 		$sqlStmts = Common::loadSqlStatements(__FILE__);
 
 		// Prepare SQL statement
@@ -51,14 +47,13 @@ class Connections implements Routable {
 			->bindParam(':connectionGUID', $connectionGUID, PDO::PARAM_STR, 36);
 		}
 
-		// Bind common parameters
-		$stmt = $stmt
-		->bindParam(':tenantId', $_SERVER['TENANT_ID'], PDO::PARAM_INT)
-		->bindParam(':userGUID', $userGUID, PDO::PARAM_STR, 36)
-		;
-
 		// Read data and write answer (or error)
-		$connections = $stmt->execute()->fetch(PDO::FETCH_ASSOC);
+		$connections = new \Ayesh\CaseInsensitiveArray\Strict(
+			$stmt
+			->bindParam(':tenantId', $_SERVER['TENANT_ID'], PDO::PARAM_INT)
+			->bindParam(':userGUID', $userGUID, PDO::PARAM_STR, 36)
+			->execute()->fetch(PDO::FETCH_ASSOC)
+		);
 
 		// Cleanup
 		Common::closeDbConnection($db);

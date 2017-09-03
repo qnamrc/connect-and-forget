@@ -24,7 +24,7 @@ class Auth {
 
 		// Verify JWT token
 		$jwtToken = $request_data['token'];
-		return Auth::verifyJWTToken($jwtToken);
+		return self::verifyJWTToken($jwtToken);
 
 	}
 

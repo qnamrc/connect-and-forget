@@ -39,7 +39,7 @@ export class MqService {
 		});
 
 		// Read configuration and connect to MQTT backend
-		this.configuration.read('mqtt')
+		this.configuration.read('mqttws')
 		.subscribe( (configurationData) => {
 
 			// TODO: check mqttConfig parameters

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<statements>
+
+<cmd id="0001"><![CDATA[
+iptables -t mangle -D PREROUTING -i :nic -s :ipAddress -d :subnet -j MARK --set-mark :fwMark 2>/dev/null;
+iptables -t mangle -A PREROUTING -i :nic -s :ipAddress -d :subnet -j MARK --set-mark :fwMark
+]]></cmd>
+
+<cmd id="0002"><![CDATA[
+ip rule delete fwmark :fwMark table :linkId 2>/dev/null;
+ip rule add    fwmark :fwMark table :linkId
+]]></cmd>
+
+</statements>

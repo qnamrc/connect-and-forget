@@ -3,16 +3,17 @@
 -- ----------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS links;
 CREATE TABLE public.links (
-  tenantid integer NOT NULL,
-  linkguid uuid NOT NULL DEFAULT gen_random_uuid(),
-  connectionid integer NOT NULL,
-  lastchanged timestamp without time zone,
-  ipaddresses cidr[],
-  userguid uuid,
+  tenantId integer NOT NULL,
+  linkGUID uuid NOT NULL DEFAULT gen_random_uuid(),
+  connectionId integer NOT NULL,
+  ipaddresses cIdr[],
+  userGUID uuid,
   permission link_permission,
   status link_status,
-  CONSTRAINT links1 UNIQUE (tenantid, connectionid, userguid),
-  CONSTRAINT links2 UNIQUE (linkguid)
+  lastChanged timestamp without time zone DEFAULT now(),
+  lastChangedBy uuid,
+  CONSTRAINT links1 PRIMARY KEY (tenantId, connectionId, userGUID),
+  CONSTRAINT links2 UNIQUE (linkGUID)
 );
 ALTER TABLE public.links
   OWNER TO postgres;

@@ -11,7 +11,7 @@ use \PDO;
 // Constants
 define('TOKEN_TIMEOUT', 3600);
 
-class Tokens implements Routable {
+class Tokens implements \Respect\Rest\Routable {
 
 
 	//--------------------------------------------------------------------------------------------------------------------
@@ -39,16 +39,18 @@ class Tokens implements Routable {
 			die();
 		}
 
-		// Get DB connection
+		// Get DB connection and load SQL statements
 		$db = Common::getDBConnection();
-
-		$stmt = $db
-		->prepare("SELECT * FROM users WHERE tenantId = :tenantId AND name = :name")
-		->bindParam(':tenantId', $_SERVER['TENANT_ID'], PDO::PARAM_INT)
-		->bindParam(':name', $payload['user'], PDO::PARAM_STR, 64);
+		$sqlStmts = Common::loadSqlStatements(__FILE__);
 
 		// Read data and write answer (or error)
-		$userData = $stmt->execute()->fetch(PDO::FETCH_ASSOC);
+		$userData = new \Ayesh\CaseInsensitiveArray\Strict(
+			$db
+			->prepare($sqlStmts['0001'])
+			->bindParam(':tenantId', $_SERVER['TENANT_ID'], PDO::PARAM_INT)
+			->bindParam(':name', $payload['user'], PDO::PARAM_STR, 64)
+			->execute()->fetch(PDO::FETCH_ASSOC)
+		);
 
 		// Cleanup
 		Common::closeDbConnection($db);
@@ -65,15 +67,15 @@ class Tokens implements Routable {
 			->setIssuedAt(time())                                           // Configures the time that the token was issue (iat claim)
 			->setNotBefore(time())                                          // Configures the time that the token can be used (nbf claim)
 			->setExpiration($tokenExpiration)                        				// Configures the expiration time of the token (exp claim)
-			->set('uGUID', $userData['userguid'])                     			// Configures a new claim, called "uGUID"
-			->set('uId', $userData['userid'])                     					// Configures a new claim, called "uId"
+			->set('uGUID', $userData['userGUID'])                     			// Configures a new claim, called "uGUID"
+			->set('uId', $userData['userId'])                     					// Configures a new claim, called "uId"
 			->set('name', $userData['name'])                 								// Configures a new claim, called "name"
 			->sign(new Sha256(), $_SERVER['JWT_SECRET'])           					// Sign the token
 			->getToken()
 			;
 			$answer = array(
 				'token' => (string)$token,
-				'userGUID' => $userData['userguid'],
+				'userGUID' => $userData['userGUID'],
 				'expires' => $tokenExpiration
 			);
 			return json_encode($answer);

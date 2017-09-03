@@ -32,7 +32,7 @@ class TablesCache {
 
 			case 'update':
 			$logger->debug("TablesCache: update");
-			$result = TablesCache::update($requestData, $db, $sqlStmts, $logger);
+			$result = self::update($requestData, $db, $sqlStmts, $logger);
 			Common::closeDbConnection($db);
 			return $result;
 
@@ -62,7 +62,7 @@ class TablesCache {
 
 			case 'destinations':
 			$logger->debug("TablesCache: update destinations");
-			return TablesCache::updateDestinations($requestData, $db, $sqlStmts, $logger);
+			return self::updateDestinations($requestData, $db, $sqlStmts, $logger);
 
 			default:
 			$logger->error("TablesCache: unknown tableName ($tableName)");
@@ -86,14 +86,14 @@ class TablesCache {
 		$destinationGUID = $requestData['destinationGUID'];
 		$logger->debug("TablesCache: update destination $destinationGUID");
 
-		// Update destinations data
-		$stmt = $db
-		->prepare($sqlStmts['0001'])
-		->bindParam(':tenantId', $_SERVER['TENANT_ID'], PDO::PARAM_INT)
-		->bindParam(':destinationGUID', $destinationGUID, PDO::PARAM_STR, 36);
-
-		// Read data and write answer (or error)
-		$changedUserGUIDs = $stmt->execute()->fetchAll(PDO::FETCH_COLUMN, 0);
+		// Update destinations data and write answer (or error)
+		$changedUserGUIDs = new \Ayesh\CaseInsensitiveArray\Strict(
+			$db
+			->prepare($sqlStmts['0001'])
+			->bindParam(':tenantId', $_SERVER['TENANT_ID'], PDO::PARAM_INT)
+			->bindParam(':destinationGUID', $destinationGUID, PDO::PARAM_STR, 36)
+				->execute()->fetchAll(PDO::FETCH_COLUMN, 0)
+		);
 		$logger->debug('changedUserGUID: ' . json_encode(array_unique($changedUserGUIDs)));
 
 		// Broadcast update

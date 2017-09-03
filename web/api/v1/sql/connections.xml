@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <statements>
 
-<sql id="0001">
+<sql id="0001"><![CDATA[
 SELECT
 	json_agg(
 		json_build_object(
@@ -26,14 +26,14 @@ FROM
 WHERE
 	c.tenantId = :tenantId
 	AND (l.userGUID IS NULL OR l.userGUID = :userGUID)
-</sql>
+]]></sql>
 
-<sql id="0001.a">
+<sql id="0001.a"><![CDATA[
 	AND d.destinationGUID = :destinationGUID
-</sql>
+]]></sql>
 
-<sql id="0001.b">
+<sql id="0001.b"><![CDATA[
 	AND connectionGUID = :connectionGUID
-</sql>
+]]></sql>
 
 </statements>

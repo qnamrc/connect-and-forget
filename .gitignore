@@ -47,7 +47,7 @@ Thumbs.db
 # Project Files
 _config/*
 _model.xml
-config.inc
+t*.config.inc
 database/_data
 composer.lock
 TODO.txt

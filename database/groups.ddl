@@ -3,15 +3,15 @@
 -- ----------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS groups;
 CREATE TABLE public.groups (
-  tenantid integer NOT NULL,
-  groupid serial NOT NULL,
-  groupguid uuid NOT NULL DEFAULT gen_random_uuid(),
+  tenantId integer NOT NULL,
+  groupId serial NOT NULL,
+  groupGUID uuid NOT NULL DEFAULT gen_random_uuid(),
   groupname character varying(255),
   description character varying(255),
-  distinguishedname character varying(255),
-  whenchanged timestamp(0) with time zone,
-  CONSTRAINT groups1 PRIMARY KEY (tenantid, groupid),
-  CONSTRAINT groups2 UNIQUE (groupguid)
+  distinguishedName character varying(255),
+  whenChanged timestamp(0) with time zone,
+  CONSTRAINT groups1 PRIMARY KEY (tenantId, groupId),
+  CONSTRAINT groups2 UNIQUE (groupGUID)
 );
 ALTER TABLE public.groups
   OWNER TO postgres;

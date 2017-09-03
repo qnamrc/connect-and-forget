@@ -4,9 +4,8 @@ namespace CaF;
 
 // Declare libraries
 use \PDO;
-use Respect\Rest\Routable;
 
-class DestinationsCache implements Routable {
+class DestinationsCache implements \Respect\Rest\Routable {
 
 	//--------------------------------------------------------------------------------------------------------------------
 	// GET: Read
@@ -14,16 +13,13 @@ class DestinationsCache implements Routable {
 	public function get($destinationGUID = null, $childTableName = null) {
 
 		// Get user GUID
-		$userGUID = getenv('USER_GUID');
-		if (!$userGUID) {
+		if (!$userGUID = getenv('USER_GUID')) {
 			http_response_code(401);
 			die();
 		}
 
-		// Get DB connection
+		// Get DB connection and load SQL statements
 		$db = Common::getDBConnection();
-
-		// Load SQL statements
 		$sqlStmts = Common::loadSqlStatements(__FILE__);
 
 		// Prepare SQL statement based on request

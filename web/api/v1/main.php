@@ -40,9 +40,6 @@ putenv('ROOT_DIR=' . dirname(__FILE__));
 // Create a router instance
 $rest = new Router('/api/v1');
 
-// Force all methods to verify authorization
-// $rest->always('AuthBearer', 'CaF', 'verifyToken');
-
 // Check request authorization
 $rest->always('By', function() use($rest) {
 	return Auth::isRequestAuthorized($rest->request->route->pattern);

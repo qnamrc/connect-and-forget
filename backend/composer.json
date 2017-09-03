@@ -4,7 +4,8 @@
 		"lcobucci/jwt": "^3.2",
 		"royallthefourth/smooth-pdo": "^2.0",
 		"katzgrau/klogger": "^1.2",
-		"notrix/phpmqtt": "^1.0"
+		"notrix/phpmqtt": "^1.0",
+		"ayesh/case-insensitive-array": "^1.0"
 	},
 	"autoload": {
 		"classmap": [
